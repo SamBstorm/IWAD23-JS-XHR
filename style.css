@@ -1,0 +1,23 @@
+body{
+    margin : 0;
+    background-color: black;
+    color : white;
+}
+
+main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10% 20%;
+}
+
+.card{
+    background-color: white;
+    color: black;
+    border-radius: 25px;
+    padding: 25px;
+    width: 256px;
+    max-height: 384px;
+    overflow: auto;
+}
