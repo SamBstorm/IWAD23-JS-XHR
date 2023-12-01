@@ -1,6 +1,6 @@
 const main = document.querySelector('main');
 
-const getData = function(){
+const getData = function(url, callback, options = {method : 'GET', async : true, body : null}){
 
     let xhr = new XMLHttpRequest();
 
@@ -9,16 +9,16 @@ const getData = function(){
             console.log(`Status HTTP : ${xhr.status}`);
             if (xhr.status == 200 || xhr.status == 0) {
                 let data = JSON.parse(xhr.responseText);
-                for (const person of data.results) {
-                    generateCard(person);
-                }
+                callback(data);
             }
         }
     } ;
 
-    xhr.open('GET','https://randomuser.me/api/?nat=fr&results=5',true);
+    xhr.open(options.method,
+        url,
+        options.async);
 
-    xhr.send();
+    xhr.send(options.body);
 }
 
 const generateCard = function(data){
@@ -42,5 +42,17 @@ const generateCard = function(data){
     cardDiv.appendChild(addressAddress);
 }
 
-getData();
+const personsHandler = function(data){
+    for (const person of data.results) {
+        generateCard(person);
+    }
+}
+
+getData(
+    'https://randomuser.me/api/?nat=fr&results=5',  //URL :    adresse permettant d'avoir accès au service API
+    personsHandler,                                 //CALLBACK :    fonction exécuté lors de la récupération
+                                                    //              des données
+    {method : "GET", body : null, async : false}    //OPTIONS :     objet JS avec les différentes options
+                                                    //(optionnel)   nécessaires (method, async, body, ...)
+    );
 
